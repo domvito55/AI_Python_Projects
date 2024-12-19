@@ -2,9 +2,9 @@
 
 Academic projects covering a range of AI subjects:
 - Overview
- - Agents
- - Neural Network
- - NLP
- - Regression
- - Search
+  - Agents
+  - Neural Network
+  - NLP
+  - Regression
+  - Search
 - Deep Learning
