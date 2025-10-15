@@ -1,0 +1,20 @@
+name: ai-search
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.6
+  - matplotlib>=3.0.0
+  - graphviz>=2.50.0  # System executable
+  - pip
+  - pip:
+      - pydot>=1.4.0
+
+# Installation:
+# conda env create -f environment.yml
+# conda activate ai-search
+
+# Description:
+# Environment for COMP 237 Assignment 2 - Search Algorithms
+# Implements BFS, UCS, Greedy Best-First, and A* algorithms
+# with Graphviz visualization
