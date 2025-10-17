@@ -1,0 +1,12 @@
+# Assignment4-LogisticRegression Requirements
+# COMP 237 - AI Fundamentals
+# Logistic Regression - Binary Classification
+
+# Core dependencies
+numpy>=1.19.0
+pandas>=1.1.0
+matplotlib>=3.0.0
+scikit-learn>=0.24.0
+
+# Python version requirement: 3.6+
+# (Code uses f-strings which require Python 3.6+)
