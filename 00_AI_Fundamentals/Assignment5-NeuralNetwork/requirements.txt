@@ -1,0 +1,10 @@
+# Assignment5-NeuralNetwork Requirements
+# COMP 237 - AI Fundamentals
+# Feed-forward Neural Networks with Backpropagation
+
+# Core dependencies
+numpy>=1.19.0
+matplotlib>=3.0.0
+neurolab>=0.3.5
+
+# Python version requirement: 3.6+

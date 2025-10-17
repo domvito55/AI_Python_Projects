@@ -1,0 +1,20 @@
+name: ai-neural-network
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.6
+  - numpy>=1.19.0
+  - matplotlib>=3.0.0
+  - pip
+  - pip:
+      - neurolab>=0.3.5
+
+# Installation:
+# conda env create -f environment.yml
+# conda activate ai-neural-network
+
+# Description:
+# Environment for COMP 237 Assignment 5 - Neural Networks
+# Feed-forward networks with backpropagation using Neurolab
+# Includes experiments with different architectures and training sizes
