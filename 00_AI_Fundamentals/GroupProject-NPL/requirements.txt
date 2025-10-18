@@ -1,0 +1,11 @@
+# GroupProject-NLP Requirements
+# COMP 237 - AI Fundamentals
+# Natural Language Processing - YouTube Spam Detection
+
+# Core dependencies
+pandas>=1.1.0
+scikit-learn>=0.24.0
+numpy>=1.19.0
+matplotlib>=3.0.0
+
+# Python version requirement: 3.6+

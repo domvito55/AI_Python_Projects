@@ -28,7 +28,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 
 #### 1. #########################
 
-path = "D:/pCloudFolder/Repositories/Semester3/AI_Python_Projects/COMP237_AI/GroupProject"
+path = "./"
 filename = 'Youtube02-KatyPerry.csv'
 fullpath = os.path.join(path,filename)
 data_KateParry = pd.read_csv(fullpath)

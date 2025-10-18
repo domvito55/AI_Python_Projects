@@ -1,0 +1,20 @@
+name: ai-nlp-spam
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.6
+  - pandas>=1.1.0
+  - scikit-learn>=0.24.0
+  - numpy>=1.19.0
+  - matplotlib>=3.0.0
+
+# Installation:
+# conda env create -f environment.yml
+# conda activate ai-nlp-spam
+
+# Description:
+# Environment for COMP 237 Group Project - NLP Spam Detection
+# YouTube comment classification using Bag of Words, TF-IDF, and Naive Bayes
+# Achieved 90.47% cross-validation accuracy, 92.05% test accuracy
+# Includes confusion matrix visualizations with matplotlib
