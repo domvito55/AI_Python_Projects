@@ -5,7 +5,6 @@ Created on Sun Jun  7 11:38:46 2020
 @author: mhabayeb
 """
 import collections
-from collections.abc import Callable
 import numbers
 class Thing:
     """This represents any physical object that can appear in an Environment.
@@ -286,5 +285,3 @@ Teixeira = Person()
 park.add_thing(Teixeira, 12)
 
 park.run(18)
-    
-    
