@@ -302,9 +302,6 @@ For advanced deep learning projects (CNNs, RNNs, GANs, VAEs), see [01_DeepLearni
 - [Neural Networks →](Assignment5-NeuralNetwork/) - Architecture experiments
 - [NLP Spam Detection →](GroupProject-NLP/) - Text classification
 
-**Next Level:**
-- [01_DeepLearning →](../01_DeepLearning/) - Advanced neural architectures
-
 **Portfolio:**
 - [Repository Overview ←](../README.md) - All projects and live demos
 
