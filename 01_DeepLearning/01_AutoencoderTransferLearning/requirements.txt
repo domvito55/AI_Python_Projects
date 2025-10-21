@@ -1,0 +1,20 @@
+# Deep Learning Framework - 2022 stable versions for Python 3.10
+tensorflow==2.10.0  # Keras included, denoising autoencoder + transfer learning
+
+# Numerical Computing
+numpy==1.23.5  # Compatible with TensorFlow 2.10
+
+# Data Visualization
+matplotlib==3.6.2  # Training curves, noisy/denoised image comparisons
+seaborn==0.12.1    # Confusion matrix heatmaps
+
+# Machine Learning Utilities
+scikit-learn==1.1.3  # Train-test split, confusion matrix
+
+# Installation:
+# pip install -r requirements.txt
+
+# Note: All versions from 2022, tested together for stability
+# Optional: Suppress TensorFlow warnings with environment variables:
+#   export TF_CPP_MIN_LOG_LEVEL=2
+#   export TF_ENABLE_ONEDNN_OPTS=0
