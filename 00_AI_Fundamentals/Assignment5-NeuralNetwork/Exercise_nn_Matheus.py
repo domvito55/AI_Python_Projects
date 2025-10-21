@@ -49,7 +49,6 @@ result1 = nn.sim(np.array([.1,.2]).reshape(1,2))
 result1b = nn.sim(np.array([.6,.6]).reshape(1,2))
 original = nn.sim(input_Matheus)
 
-ax = plt.axes(projection='3d')
 def f(x, y):
     return (x + y)
 x = np.linspace(-.6, .6, 600)
@@ -67,8 +66,7 @@ ax.scatter3D(x1.reshape(600,), y1.reshape(600,), results.reshape(600,))
 ax.scatter3D(set1.reshape(data_size,), set2.reshape(data_size,), original.reshape(data_size,))
 ax.set_xlabel('x1')
 ax.set_ylabel('x2')
-ax.set_zlabel('x1 + x2');
-
+ax.set_zlabel('x1 + x2')
 
 #_________ EX. 2 _________#
 ########## 4. ##########
@@ -109,7 +107,6 @@ result2 = nn.sim(np.array([.1,.2]).reshape(1,2))
 result2b = nn.sim(np.array([.6,.6]).reshape(1,2))
 original = nn.sim(input_Matheus)
 
-ax = plt.axes(projection='3d')
 x = np.linspace(-.6, .6, 600)
 y = np.linspace(-.6, .6, 600)
 X, Y = np.meshgrid(x, y)
@@ -125,7 +122,7 @@ ax.scatter3D(x1.reshape(600,), y1.reshape(600,), results.reshape(600,))
 ax.scatter3D(set1.reshape(data_size,), set2.reshape(data_size,), original.reshape(data_size,))
 ax.set_xlabel('x1')
 ax.set_ylabel('x2')
-ax.set_zlabel('x1 + x2');
+ax.set_zlabel('x1 + x2')
 
 #_________ EX. 3 _________#
 ########## 4. ##########
@@ -160,7 +157,6 @@ result3 = nn.sim(np.array([.1,.2]).reshape(1,2))
 result3b = nn.sim(np.array([.6,.6]).reshape(1,2))
 original = nn.sim(input_Matheus)
 
-ax = plt.axes(projection='3d')
 x = np.linspace(-.6, .6, 600)
 y = np.linspace(-.6, .6, 600)
 X, Y = np.meshgrid(x, y)
@@ -176,7 +172,7 @@ ax.scatter3D(x1.reshape(600,), y1.reshape(600,), results.reshape(600,))
 ax.scatter3D(set1.reshape(data_size,), set2.reshape(data_size,), original.reshape(data_size,))
 ax.set_xlabel('x1')
 ax.set_ylabel('x2')
-ax.set_zlabel('x1 + x2');
+ax.set_zlabel('x1 + x2')
 
 #_________ EX. 4 _________#
 ########## 4. ##########
@@ -226,7 +222,6 @@ result4 = nn.sim(np.array([.1,.2]).reshape(1,2))
 result4b = nn.sim(np.array([.6,.6]).reshape(1,2))
 original = nn.sim(input_Matheus)
 
-ax = plt.axes(projection='3d')
 x = np.linspace(-.6, .6, 600)
 y = np.linspace(-.6, .6, 600)
 X, Y = np.meshgrid(x, y)
@@ -242,7 +237,7 @@ ax.scatter3D(x1.reshape(600,), y1.reshape(600,), results.reshape(600,))
 ax.scatter3D(set1.reshape(data_size,), set2.reshape(data_size,), original.reshape(data_size,))
 ax.set_xlabel('x1')
 ax.set_ylabel('x2')
-ax.set_zlabel('x1 + x2');
+ax.set_zlabel('x1 + x2')
 
 #_________ EX. 5 _________#
 ########## 4. ##########

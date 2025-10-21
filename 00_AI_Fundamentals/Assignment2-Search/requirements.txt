@@ -1,14 +1,13 @@
-# Assignment2-Search Requirements
-# COMP 237 - AI Fundamentals
-# Search Algorithms Implementation
+# Core dependencies - Python 3.11 compatible
+matplotlib==3.7.1
+pydot==1.4.2
 
-# Core dependencies
-matplotlib>=3.0.0
-pydot>=1.4.0
+# Note: Graphviz system executable required
+# Install via: conda install graphviz (recommended)
+# Or system package manager:
+#   - Windows: choco install graphviz
+#   - macOS: brew install graphviz
+#   - Linux: sudo apt install graphviz
 
-# Note: Graphviz executable must be installed separately
-# Windows: Download from https://graphviz.org/download/
-# macOS: brew install graphviz
-# Linux: sudo apt-get install graphviz
-
-# Python version requirement: 3.6+
+# Installation:
+# pip install -r requirements.txt

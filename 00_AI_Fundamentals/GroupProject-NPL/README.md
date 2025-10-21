@@ -484,7 +484,7 @@ count_vectorizer = CountVectorizer(ngram_range=(1, 2))
 ## ⚙️ Installation
 
 ### Prerequisites
-- Python 3.6+
+- Python 3.11
 
 ### Install Dependencies
 ```bash

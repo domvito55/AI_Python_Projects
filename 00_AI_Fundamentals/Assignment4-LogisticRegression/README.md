@@ -363,7 +363,7 @@ From coefficient analysis:
 ## ⚙️ Installation
 
 ### Prerequisites
-- Python 3.6+
+- Python 3.11
 
 ### Install Dependencies
 ```bash

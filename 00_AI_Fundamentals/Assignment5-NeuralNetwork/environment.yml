@@ -3,12 +3,13 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python>=3.6
-  - numpy>=1.19.0
-  - matplotlib>=3.0.0
+  - python=3.11
+  - numpy=1.23.5
+  - scipy=1.10.1
+  - matplotlib=3.7.1
   - pip
   - pip:
-      - neurolab>=0.3.5
+      - neurolab==0.3.5
 
 # Installation:
 # conda env create -f environment.yml
@@ -18,3 +19,10 @@ dependencies:
 # Environment for COMP 237 Assignment 5 - Neural Networks
 # Feed-forward networks with backpropagation using Neurolab
 # Includes experiments with different architectures and training sizes
+
+# Version compatibility notes:
+# - Python 3.11: Modern Python version
+# - NumPy 1.23.5: Compatible with Python 3.11
+# - SciPy 1.10.1: Required by Neurolab for BFGS optimizer (not auto-installed)
+# - Matplotlib 3.7.1: Compatible with Python 3.11
+# - Neurolab 0.3.5: Lightweight neural network library

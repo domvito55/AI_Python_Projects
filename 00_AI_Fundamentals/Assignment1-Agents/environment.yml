@@ -1,6 +1,19 @@
-name: assignment1-agents
+name: ai-agents
 channels:
+  - conda-forge
   - defaults
 dependencies:
-  - python>=3.8
-  - pip
+  - python=3.11
+
+# Installation:
+# conda env create -f ensvironment.yml
+# conda activate ai-agents
+
+# Description:
+# Environment for COMP 237 Assignment 1 - Simple Reflex Agent
+# Implements BlindDog agent with environment simulation
+# Pure Python implementation - no external dependencies required
+
+# Version compatibility notes:
+# - Python 3.11: Modern Python version
+# - No external libraries required (uses only Python standard library)

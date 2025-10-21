@@ -36,7 +36,7 @@ Collection of **6 production-quality implementations** demonstrating core AI/ML 
 ## 🛠️ Technologies & Tools
 
 **Core Stack:**
-- **Python 3.6+** (3.8+ for newer projects)
+- **Python 3.11**
 - **NumPy** - Numerical computing
 - **Pandas** - Data manipulation
 - **Matplotlib** - Visualization

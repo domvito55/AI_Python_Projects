@@ -145,7 +145,7 @@ All algorithms generate visual search trees using Graphviz:
 ## ⚙️ Installation
 
 ### Prerequisites
-- Python 3.6+
+- Python 3.11
 - Graphviz executable (required by pydot)
 
 ### Install Graphviz

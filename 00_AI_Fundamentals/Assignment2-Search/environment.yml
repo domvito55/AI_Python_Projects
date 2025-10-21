@@ -3,12 +3,12 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python>=3.6
-  - matplotlib>=3.0.0
-  - graphviz>=2.50.0  # System executable
+  - python=3.11
+  - matplotlib=3.7.1
+  - graphviz=8.1.0  # System executable
   - pip
   - pip:
-      - pydot>=1.4.0
+      - pydot==1.4.2
 
 # Installation:
 # conda env create -f environment.yml
@@ -18,3 +18,9 @@ dependencies:
 # Environment for COMP 237 Assignment 2 - Search Algorithms
 # Implements BFS, UCS, Greedy Best-First, and A* algorithms
 # with Graphviz visualization
+
+# Version compatibility notes:
+# - Python 3.11: Modern Python version
+# - Matplotlib 3.7.1: Compatible with Python 3.11
+# - Graphviz 8.1.0: Latest stable version
+# - Pydot 1.4.2: Compatible with Python 3.11

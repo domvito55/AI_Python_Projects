@@ -13,10 +13,11 @@ import numpy as np
 import os
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model
-from sklearn import metrics
 
 #### a. #########################
-path = "D:/Dropbox/Canada/College/0_Cursos/3_Semestre/COMP237_AI/Assignments/Assignment3/Exercise#2_Matheus"
+script_path = os.path.abspath(__file__)
+script_dir  = os.path.dirname(script_path)
+path = script_dir
 filename = 'Ecom Expense.csv'
 fullpath = os.path.join(path,filename)
 ecom_exp_Matheus = pd.read_csv(fullpath)
@@ -47,7 +48,7 @@ for name, dtype in ecom_exp_Matheus.dtypes.items():
     cat_var.append(name)
 cat_var.remove('Transaction ID')
 for var in cat_var:
-    cat_list = pd.get_dummies(ecom_exp_Matheus[var], prefix=var)
+    cat_list = pd.get_dummies(ecom_exp_Matheus[var], prefix=var, dtype=int)
     dummy_names += cat_list.columns.values.tolist()
     #### c.ii #######################
     ecom_exp_Matheus = ecom_exp_Matheus.join(cat_list)
@@ -131,5 +132,3 @@ print (f"Weights: {lm.coef_}")
 
 #### d.vii #####################
 print(f"R^2:  {lm.score(x_train_Matheus, y_train_Matheus)}")
-
-

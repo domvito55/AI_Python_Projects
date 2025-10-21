@@ -3,18 +3,28 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python>=3.6
-  - pandas>=1.1.0
-  - scikit-learn>=0.24.0
-  - numpy>=1.19.0
-  - matplotlib>=3.0.0
+  - python=3.11
+  - numpy=1.23.5
+  - pandas=1.5.3
+  - matplotlib=3.7.1
+  - scikit-learn=1.2.2
 
 # Installation:
 # conda env create -f environment.yml
 # conda activate ai-nlp-spam
+
+# Update existing environment:
+# conda env update -f environment.yml --prune
 
 # Description:
 # Environment for COMP 237 Group Project - NLP Spam Detection
 # YouTube comment classification using Bag of Words, TF-IDF, and Naive Bayes
 # Achieved 90.47% cross-validation accuracy, 92.05% test accuracy
 # Includes confusion matrix visualizations with matplotlib
+
+# Version compatibility notes:
+# - Python 3.11: Modern Python version
+# - NumPy 1.23.5: Compatible with Python 3.11
+# - Pandas 1.5.3: Compatible with Python 3.11 and NumPy 1.23
+# - Matplotlib 3.7.1: Compatible with Python 3.11
+# - Scikit-learn 1.2.2: Compatible with Python 3.11 (includes NLP tools)

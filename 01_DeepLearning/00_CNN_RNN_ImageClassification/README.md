@@ -216,22 +216,22 @@ CNN_RNN_ImageClassification/
 ## 🔧 Technologies Used
 
 **Deep Learning Framework:**
-- TensorFlow 2.x / Keras
+- TensorFlow 2.10.0 / Keras (2022 stable release)
 - Neural network layers: Conv2D, MaxPooling2D, LSTM, Dense
 
 **Data Processing:**
-- NumPy - numerical operations and array manipulation
+- NumPy 1.23.5 - Numerical operations and array manipulation
 
 **Visualization:**
-- Matplotlib - training curves, probability distributions
-- Seaborn - confusion matrix heatmaps
+- Matplotlib 3.6.2 - Training curves, probability distributions
+- Seaborn 0.12.1 - Confusion matrix heatmaps
 
 **Model Evaluation:**
-- Scikit-learn - confusion matrix, train_test_split
-- TensorFlow metrics - accuracy, loss tracking
+- Scikit-learn 1.1.3 - Confusion matrix, train_test_split
+- TensorFlow metrics - Accuracy, loss tracking
 
 **Development:**
-- Python 3.8+
+- Python 3.10 (required for TensorFlow 2.10 compatibility)
 - VS Code
 - Git version control
 
@@ -337,14 +337,14 @@ CNN_RNN_ImageClassification/
 
 ## 🔗 Dependencies
 
-### Core Requirements
+### Core Requirements (2022 stable versions)
 
 ```
-tensorflow>=2.8.0
-numpy>=1.19.0
-matplotlib>=3.3.0
-seaborn>=0.11.0
-scikit-learn>=0.24.0
+tensorflow==2.10.0
+numpy==1.23.5
+matplotlib==3.6.2
+seaborn==0.12.1
+scikit-learn==1.1.3
 ```
 
 ### Installation

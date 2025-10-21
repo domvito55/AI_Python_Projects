@@ -14,7 +14,6 @@ import os
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn import linear_model
-from sklearn import metrics
 #### b.4 #######################
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
 
@@ -25,7 +24,9 @@ import matplotlib.pyplot as plt
 # path = os.path.dirname(os.path.realpath(__file__))
   # the above approach only works if you run the file, it wont work if you run
   # it line by line
-path = 'D:/pCloudFolder/Repositories/AI_Python_Projects/COMP237_AI/Assignment4/Exercise#1_Matheus'
+script_path = os.path.abspath(__file__)
+script_dir  = os.path.dirname(script_path)
+path = script_dir
 filename = 'titanic.csv'
 fullpath = os.path.join(path,filename)
 titaninc_Matheus = pd.read_csv(fullpath)
@@ -91,7 +92,7 @@ titaninc_Matheus = titaninc_Matheus.drop('Cabin', axis=1)
 cat_var = ['Sex', 'Embarked']
 dummy_names = []
 for var in cat_var:
-    cat_list = pd.get_dummies(titaninc_Matheus[var], prefix=var)
+    cat_list = pd.get_dummies(titaninc_Matheus[var], prefix=var, dtype=int)
     dummy_names += cat_list.columns.values.tolist()
     #### d.3 ########################
     titaninc_Matheus = titaninc_Matheus.join(cat_list)
