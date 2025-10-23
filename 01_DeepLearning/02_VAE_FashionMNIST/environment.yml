@@ -1,0 +1,21 @@
+name: vae-assignment
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      # Core Deep Learning
+      - tensorflow==2.10.0  # Last version compatible with Python 3.10
+      - tensorflow-probability==0.18.0  # Compatible with TensorFlow 2.10
+      
+      # Numerical Computing
+      - numpy==1.23.5
+      
+      # Visualization
+      - matplotlib==3.6.2
+      
+      # Development Tools (optional)
+      - jupyter==1.0.0
+      - ipykernel==6.19.4

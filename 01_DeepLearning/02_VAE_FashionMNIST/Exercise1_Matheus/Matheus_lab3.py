@@ -4,8 +4,8 @@ print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 print("GPU Name: ", tf.test.gpu_device_name())
 
 # Configure mixed precision for faster training on A100
-policy = tf.keras.mixed_precision.Policy('mixed_float16')
-tf.keras.mixed_precision.set_global_policy(policy)
+#policy = tf.keras.mixed_precision.Policy('mixed_float16')
+#tf.keras.mixed_precision.set_global_policy(policy)
 
 # Configure memory growth
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -19,6 +19,7 @@ if gpus:
 import numpy as np
 import matplotlib.pyplot as plt
 from time import time
+import sys  # Para o tf.print funcionar corretamente
 
 # ------------------------- a. Get the data:
 # ----- 1. Import and load the 'fashion_mnist' dataset from TensorFlow. Using 2
@@ -67,9 +68,9 @@ test_matheus['images'] = np.expand_dims(test_matheus['images'], axis=-1)
 class SampleLayer(tf.keras.layers.Layer):
     def __init__(self, **kwargs):
         super(SampleLayer, self).__init__(**kwargs)
-
+    
     # i. The call function takes as input the mean and standard deviation
-    # as a list. 
+    # as a list.
     def call(self, inputs):
         z_mean, z_log_var = inputs
         # From one of the input use tf.shape to calculate the batch size and
@@ -87,70 +88,40 @@ class SampleLayer(tf.keras.layers.Layer):
         # the input and 𝜖 is the generated random noise.
         return z_mean + tf.exp(0.5 * z_log_var) * epsilon
 
-    def compute_output_shape(self, input_shape):
-        return input_shape[0]
-
-class KLDivergenceLayer(tf.keras.layers.Layer):
-    def __init__(self, **kwargs):
-        super(KLDivergenceLayer, self).__init__(**kwargs)
-
-    def call(self, inputs):
-        z_mean, z_log_var = inputs
-        # kl_loss = -0.5 * tf.reduce_mean(z_mu - tf.square(z_mu) - tf.exp(z_log_sigma) + 1)
-        kl_loss = -0.5 * tf.reduce_mean(
-            z_mean - tf.square(z_mean) - tf.exp(z_log_var) + 1,
-            axis=-1
-        )
-        self.add_loss(kl_loss)
-        return inputs
-
+# ===== ENCODER =====
 # ----- 2. Use TensorFlow's Model() [For more info, reference:
 # https://www.tensorflow.org/api_docs/python/tf/keras/Model] to build
 # the encoder section of the variational autoencoder with the following
 # architecture:
 # --- i. Input = Size of input image, store the layer as input_img
 input_img = tf.keras.layers.Input(shape=(28, 28, 1))
-
 # --- ii. Layer 1 = Convolution with 32 kernels with window size 3x3, a
 # 'relu' activation function, and 'same' padding
 x = tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same')(input_img)
-
 # --- iii. Layer 2 = Convolution with 64 kernels with window size 3x3, a
 # 'relu' activation function, 'same' padding, stride of 2x2
 x = tf.keras.layers.Conv2D(64, (3, 3), strides=(2, 2), activation='relu', padding='same')(x)
-
 # --- iv. Layer 3 = Convolution with 64 kernels with window size 3x3, a
 # 'relu' activation function, and 'same' padding
 x = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(x)
-
 # --- v. Layer 4 = Convolution with 64 kernels with window size 3x3, a
 # 'relu' activation function, and 'same' padding
 x = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(x)
-
 # --- vi. Layer 5 = Full connected layer with 32 neurons and 'relu'
 # activation (Note: Input to fully connected layer should be flatten
 # first)
 x = tf.keras.layers.Flatten()(x)
 x = tf.keras.layers.Dense(32, activation='relu')(x)
-
 # --- vii. LatentSpace.A = Full connected layer with 2 neurons, store layer
 # as z_mu_firstname
 z_mu_matheus = tf.keras.layers.Dense(2)(x)
-
 # --- viii. LatentSpace.B = Full connected layer with 2 neurons, store layer
 # as z_log_sigma_firstname
 z_log_sigma_matheus = tf.keras.layers.Dense(2)(x)
-
 # --- ix. Output = SampleLayer defined Step C.1, store layer as z_firstname
-# Apply the KLDivergenceLayer before sampling
-[z_mu_matheus, z_log_sigma_matheus] = KLDivergenceLayer()([z_mu_matheus, z_log_sigma_matheus])
-
-# Apply the SampleLayer
 z_matheus = SampleLayer()([z_mu_matheus, z_log_sigma_matheus])
-
 # Create encoder model
 encoder = tf.keras.Model(input_img, [z_mu_matheus, z_log_sigma_matheus, z_matheus])
-
 # ----- 3. Display (print) a summary of the model using summary(). Draw a diagram
 # illustrating the structure of the neural network model, making note of the
 # size of each layer (# of neurons), number of weights in each layer and the
@@ -158,44 +129,39 @@ encoder = tf.keras.Model(input_img, [z_mu_matheus, z_log_sigma_matheus, z_matheu
 # layer.
 encoder.summary()
 
+# ===== DECODER =====
 # ----- 4. Use TensorFlow's Model() [For more info, reference:
 # https://www.tensorflow.org/api_docs/python/tf/keras/Model] to build
 # the decoder section of the variational autoencoder (store as
 # decoder_firstname) with the following architecture:
 # --- i. Input = Size of latent dimension
 latent_input = tf.keras.layers.Input(shape=(2,))
-
 # --- ii. Layer 1 = Fully connected layer, the number of neurons should be
 # same as the output shape of Layer 4 in the encoder (i.e. the
 # flatten input dimension for layer 5)
 x = tf.keras.layers.Dense(14 * 14 * 64)(latent_input)
-
 # --- iii. Layer 2 = Use tf.keras.layers.reshape to reshape the tensor as an
 # image. The dimension of the reshape should be the same as Layer
 # 4 in the encoder
 x = tf.keras.layers.Reshape((14, 14, 64))(x)
-
 # --- iv. Layer 3 = Use tf.keras.layers.Conv2DTranspose to add a
 # transposed convolution layer with 32 kernels with window size
 # 3x3, a 'relu' activation function, 'same' padding, stride of 2x2. For
 # more info, reference:
 # https://keras.io/api/layers/convolution_layers/convolution2d_tra
 # nspose/
-x = tf.keras.layers.Conv2DTranspose(32, (3, 3), strides=(2, 2),
-                                     activation='relu', padding='same')(x)
-
+x = tf.keras.layers.Conv2DTranspose(32, (3, 3), strides=(2, 2), activation='relu', padding='same')(x)
 # --- v. Layer 4 = Convolution with 1 kernels with window size 3x3, a
 # sigmoid activation function, and 'same' padding
 decoder_output = tf.keras.layers.Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
-
 # Create decoder model
 decoder_matheus = tf.keras.Model(latent_input, decoder_output)
-
 # ----- 5. Display (print) a summary of the model using summary(). Draw a diagram
 # illustrating the structure of the neural network model, making note of the
 # size of each layer (# of neurons), number of weights in each layer.
 decoder_matheus.summary()
 
+# ===== VAE =====
 # ----- 6. Use TensorFlow's Model() [For more info, reference:
 # https://www.tensorflow.org/api_docs/python/tf/keras/Model] to build a
 # variational autoencoders (store model as vae_firstname) from the input
@@ -204,25 +170,40 @@ decoder_matheus.summary()
 # define output y, which will be the output of the variational autoencoder)
 vae_output = decoder_matheus(z_matheus)
 vae_matheus = tf.keras.Model(input_img, vae_output)
-
 # ----- 7. Display (print) a summary of the model using summary(). Draw a diagram
 # illustrating the structure of the neural network model, making note of the
 # size of each layer (# of neurons), number of weights in each layer.
 vae_matheus.summary()
 
+# ===== ADD WEIHTED KL LOSS =====
+print("\n" + "="*60)
+print("ADDING WEIGHTED KL LOSS")
+print("="*60)
+beta = 0.001  # ← starting small
 # ---------------- d. Define the KL divergence using the following line,
 # making sure to replace z_mu and z_log_sigma, as defined from Step C.2:
 # kl_loss = -0.5 * tf.reduce_mean(z_mu - tf.square(z_mu) - tf.exp(z_log_sigma) + 1)
+kl_loss = -0.5 * tf.reduce_mean(
+    1 + z_log_sigma_matheus - tf.square(z_mu_matheus) - tf.exp(z_log_sigma_matheus)
+)
 
+weighted_kl_loss = beta * kl_loss
 # ---------------- e. Use model.add_loss() to add the KL loss function defined
 # in Step D. For more info reference:
 # https://www.tensorflow.org/api_docs/python/tf/keras/layers/Layer#add_loss
+vae_matheus.add_loss(weighted_kl_loss)
+print(f"✅ Added weighted KL Loss with beta={beta}")
+print("="*60 + "\n")
 
-# Compile the model with 'adam' optimizer, and 'mean_square_error' loss
-# function
-vae_matheus.compile(optimizer='adam',
-                   loss='mean_squared_error')
+# ===== COMPILE =====
+# ---------------- f. Compile the model with 'adam' optimizer, and 'mean_square_error'
+# loss function
+vae_matheus.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    loss='mean_squared_error'
+)
 
+# ===== TRAIN =====
 # ------------------------ g. Use TensorFlow's fit() and the
 # train_firstname['images' dataset to train the VAE with 10 epochs and batch
 # size of 256.
@@ -233,17 +214,48 @@ vae_matheus.compile(optimizer='adam',
 # train the model using the full dataset.
 print("Starting training...")
 start_time = time()
+batch_size = 512
 
-batch_size = 256
-history = vae_matheus.fit(train_matheus['images'], 
-                         train_matheus['images'],
-                         epochs=10,
-                         batch_size=batch_size,
-                         shuffle=True)
+history = vae_matheus.fit(
+    train_matheus['images'], 
+    train_matheus['images'],
+    epochs=10,
+    batch_size=batch_size,
+    shuffle=True,
+    verbose=1
+)
 
 print(f"Training completed in {(time() - start_time)/60:.2f} minutes")
 
-# ---------------------- h. Review sample code below and generate 10x10 samples
+# i. Display (plot) the latent space of z_mu of the test dataset
+# ----- 1. Using TensorFlow's Model() and layers from the encoder (see Step C.2)
+# build a model to generate the latent space for z_mu.
+encoder_mu = tf.keras.Model(input_img, z_mu_matheus)
+# ----- 2. Use the model to predict the encoded latent space of the test dataset
+mu_test = encoder_mu.predict(test_matheus['images'])
+
+print("\n" + "="*60)
+print("LATENT SPACE DIAGNOSYS")
+print("="*60)
+print(f"z[0]: min={mu_test[:, 0].min():.2f}, max={mu_test[:, 0].max():.2f}, mean={mu_test[:, 0].mean():.2f}")
+print(f"z[1]: min={mu_test[:, 1].min():.2f}, max={mu_test[:, 1].max():.2f}, mean={mu_test[:, 1].mean():.2f}")
+print(f"\nEXPECTED: min≈-3, max≈+3, mean≈0")
+print("="*60 + "\n")
+
+# ----- 3. Use matplotlib.pyplot.scatter to plot the latent space. For more info,
+# reference:
+# https://matplotlib.org/3.5.1/api/_as_gen/matplotlib.pyplot.scatter.html.
+# Your plot should look something like the following.
+plt.figure(figsize=(10, 10))
+scatter = plt.scatter(mu_test[:, 0], mu_test[:, 1], c=test_matheus['labels'], 
+                     cmap='tab10', marker='o', alpha=0.5)
+plt.colorbar(scatter)
+plt.title('Latent Space Visualization')
+plt.xlabel('z[0]')
+plt.ylabel('z[1]')
+plt.show()
+
+# ---------------------- h. Review sample code below and generate 15x15 samples
 # from the VAE model using the decoder.
 # import tensorflow_probability as tfp
 # n = 4
@@ -263,45 +275,39 @@ print(f"Training completed in {(time() - start_time)/60:.2f} minutes")
 # plt.figure(figsize=(20, 20))
 # plt.imshow(figure)
 # plt.show()
-
 import tensorflow_probability as tfp
-
-n = 10
+n = 15
 figure_size = 28
+
 norm = tfp.distributions.Normal(0, 1)
 grid_x = norm.quantile(np.linspace(0.05, 0.95, n))
-grid_y = norm.quantile(np.linspace(0.05, 0.95, n))
-figure = np.zeros((figure_size*n, figure_size*n))
+grid_y = norm.quantile(np.linspace(0.95, 0.05, n))
 
-for i, yi in enumerate(grid_x):
-    for j, xi in enumerate(grid_y):
+figure = np.zeros((figure_size * n, figure_size * n))
+
+for j, yi in enumerate(grid_y):
+    for i, xi in enumerate(grid_x):
         z_sample = np.array([[xi, yi]])
         z_sample = np.tile(z_sample, batch_size).reshape(batch_size, 2)
         x_decoded = decoder_matheus.predict(z_sample, batch_size=batch_size)
-        digit = x_decoded[0].reshape(figure_size, figure_size)
-        figure[i * figure_size: (i + 1) * figure_size,
-               j * figure_size: (j + 1) * figure_size] = digit
-plt.figure(figsize=(10, 10))
-plt.imshow(figure)
-plt.show()
+        cloth = x_decoded[0].reshape(figure_size, figure_size)
+        figure[j * figure_size: (j + 1) * figure_size,
+               i * figure_size: (i + 1) * figure_size] = cloth
 
-# i. Display (plot) the latent space of z_mu of the test dataset
-# ----- 1. Using TensorFlow's Model() and layers from the encoder (see Step C.2)
-# build a model to generate the latent space for z_mu.
-encoder_mu = tf.keras.Model(input_img, z_mu_matheus)
+# --- PLOT ---
+plt.figure(figsize=(20, 20))
+plt.imshow(figure, cmap="gray")
 
-# ----- 2. Use the model to predict the encoded latent space of the test dataset
-mu_test = encoder_mu.predict(test_matheus['images'])
+# ticks
+tick_positions = np.arange(figure_size / 2, figure_size * n, figure_size)
 
-# ----- 3. Use matplotlib.pyplot.scatter to plot the latent space. For more info,
-# reference:
-# https://matplotlib.org/3.5.1/api/_as_gen/matplotlib.pyplot.scatter.html.
-# Your plot should look something like the following.
-plt.figure(figsize=(5, 5))
-scatter = plt.scatter(mu_test[:, 0], mu_test[:, 1], c=test_matheus['labels'], 
-                     cmap='tab10', marker='o', alpha=0.5)
-plt.colorbar(scatter)
-plt.title('Latent Space Visualization')
-plt.xlabel('z[0]')
-plt.ylabel('z[1]')
+# Labels and font size
+plt.xticks(tick_positions, [f"{xi:.2f}" for xi in grid_x], fontsize=14)
+plt.yticks(tick_positions, [f"{yi:.2f}" for yi in grid_y], fontsize=14)
+
+plt.xlabel("Latent variable 1 (xi)", fontsize=20, labelpad=15)
+plt.ylabel("Latent variable 2 (yi)", fontsize=20, labelpad=15)
+plt.tick_params(axis='both', which='major', labelsize=20)
+
+plt.tight_layout()
 plt.show()

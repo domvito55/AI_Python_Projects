@@ -1,0 +1,16 @@
+# Variational Autoencoder (VAE) - Fashion MNIST
+# Python 3.10 required for TensorFlow 2.10 compatibility
+
+# Core Deep Learning
+tensorflow==2.10.0
+tensorflow-probability==0.18.0
+
+# Numerical Computing
+numpy==1.23.5
+
+# Visualization
+matplotlib==3.6.2
+
+# Development Tools (optional)
+jupyter==1.0.0
+ipykernel==6.19.4
